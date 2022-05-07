@@ -14,5 +14,12 @@ class profile:AppCompatActivity {
         setContentView(R.layout.activity_main)
         var nameTxt:TextView=findViewById(R.id.nameProfile)
 
+        var name:String = "username not set"
+        var extras:Bundle= intent.extras!!
+        if(name!=null){
+            name= extras.getString("name").toString()
+
+            nameTxt.setText(name)
+        }
     }
 }

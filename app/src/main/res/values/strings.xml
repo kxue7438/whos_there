@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="account_login_string">Account login</string>
+    <string name="email_hint_string">Email</string>
+    <string name="password_hint_string">Password</string>
+    <string name="login_string">Login</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="register_string">Register</string>
+    <string name="register_new_account_string">Register new account</string>
+    <string name="register_success_string">Registration successful!</string>
+    <string name="register_failed_string">Registration failed! Please try again later</string>
+    <string name="goto_register_string">New user? Register here</string>
+    <string name="goto_login_string">Have an account? Log in</string>
+    <string name="full_name_hint_string">First and Last Name (e.g. John Doe)</string>
 </resources>

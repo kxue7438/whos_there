@@ -40,6 +40,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val currentUser = mAuth.currentUser
         if(currentUser == null) {
             Toast.makeText(applicationContext, "not logged in", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(applicationContext, currentUser.displayName, Toast.LENGTH_LONG).show()
         }
     }
 

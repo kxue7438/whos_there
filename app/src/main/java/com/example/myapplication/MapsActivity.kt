@@ -40,10 +40,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (null != mLocationManager) {
-            Log.i(TAG, "Couldn't find the LocationManager")
-            // Return a LocationListener
-        }
         mLocationListener = createLocationListener()
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -227,10 +223,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
     companion object{
-        const val PERMISSION_REQUEST_ACCESS_LOCATION=100
-        const val granted = PackageManager.PERMISSION_GRANTED
-        const val internet = Manifest.permission.INTERNET
-        const val fine = Manifest.permission.ACCESS_FINE_LOCATION
         private const val ONE_MIN = 1000 * 60.toLong()
         private const val TWO_MIN = ONE_MIN * 2
         private const val MEASURE_TIME = TWO_MIN
@@ -239,7 +231,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         private const val MIN_DISTANCE = 5.0f
         private const val REQUEST_FINE_LOC_PERM_ONCREATE = 200
         private const val REQUEST_FINE_LOC_PERM_ONRESUME = 201
-        private var mFirstUpdate = true
         private const val TAG = "LocationGetLocation"
     }
 }

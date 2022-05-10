@@ -1,4 +1,4 @@
-package com.example.whosthere
+package com.example.myapplication
 
 class classificationAct {
 }

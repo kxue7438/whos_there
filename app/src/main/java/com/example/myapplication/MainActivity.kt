@@ -1,4 +1,4 @@
-package com.example.whosthere
+package com.example.myapplication
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

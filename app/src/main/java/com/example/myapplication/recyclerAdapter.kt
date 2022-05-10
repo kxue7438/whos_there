@@ -1,4 +1,4 @@
-package com.example.whosthere
+package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Who Is There</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="account_login_string">Account login</string>
@@ -15,4 +15,9 @@
     <string name="goto_register_string">New user? Register here</string>
     <string name="goto_login_string">Have an account? Log in</string>
     <string name="full_name_hint_string">First and Last Name (e.g. John Doe)</string>
+
+    <string name="contacts">Contacts</string>
+    <string name="settings">Settings</string>
+    <string name="profile">profile</string>
+    <string name="search">search</string>
 </resources>

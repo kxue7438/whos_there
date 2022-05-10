@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/contactsB"
+            android:enabled="true"
+            android:icon="@drawable/ic_contacts"
+            android:title="@string/contacts"/>
+        <item
+            android:id="@+id/profileB"
+            android:enabled="true"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/profile"/>
+        <item
+            android:id="@+id/searchB"
+            android:enabled="true"
+            android:icon="@drawable/ic_search"
+            android:title="@string/search"/>
+        <item
+            android:id="@+id/settingsB"
+            android:enabled="true"
+            android:icon="@drawable/ic_gear"
+            android:title="@string/settings"/>
+
+    </menu>

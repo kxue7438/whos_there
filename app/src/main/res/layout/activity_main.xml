@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <Button
+        android:id="@+id/contactsB"
+
+        android:layout_width="103dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#1156DF"
+        android:text="contacts"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profileB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerContacts"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/settingsB"
+        android:layout_width="103dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#0B0C0B"
+        android:text="Setting"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/searchB"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerContacts"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/profileB"
+
+        android:layout_width="103dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#F11A1A"
+        android:text="profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/searchB"
+        app:layout_constraintStart_toEndOf="@+id/contactsB"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerContacts"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/searchB"
+        android:layout_width="103dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#54E61F"
+        android:text="search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/settingsB"
+        app:layout_constraintStart_toEndOf="@+id/profileB"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerContacts"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="searchB" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerContacts"
+        android:layout_width="368dp"
+        android:layout_height="546dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="89dp" />
+
+    <Button
+        android:id="@+id/notificationsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="237dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="4dp"
+        android:background="#090505"
+        android:backgroundTint="#171010"
+        android:text="Notifications"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerContacts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

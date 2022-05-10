@@ -68,7 +68,7 @@ class RegistrationActivity : AppCompatActivity() {
 
                 val userinfo = mapOf("email" to email, "name" to name)
 
-                db.collection("Users").document(user.uid).set(userinfo)
+                db.collection("Users").document(email).set(userinfo)
 
                 Toast.makeText(applicationContext, getString(R.string.register_success_string), Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))

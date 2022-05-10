@@ -9,12 +9,12 @@ android {
     packagingOptions{
         exclude 'META-INF/androidx.cardview_cardview.version'
     }
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdk 26
-        targetSdk 32
+        minSdk 31
+        targetSdk 31
         versionCode 1
         versionName "1.0"
         buildConfigField("String", "WEB_CLIENT_ID", '"1068867299934-6fu2gjvih6l2n5r4tmehnbbjlc9gnf3r.apps.googleusercontent.com"')

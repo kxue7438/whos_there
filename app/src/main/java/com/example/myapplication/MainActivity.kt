@@ -45,10 +45,10 @@ class MainActivity : AppCompatActivity() {
         //3->settings
         lateinit var intent:Intent
         when(int){
-            0->intent=Intent(this,MainActivity::class.java)
-            1->intent=Intent(this,profileAct::class.java)
-            2->intent=Intent(this,searchAct::class.java)
-            else->intent=Intent(this,settingsAct::class.java)
+            0->intent=Intent(applicationContext,MainActivity::class.java)
+            1->intent=Intent(applicationContext,profileAct::class.java)
+            2->intent=Intent(applicationContext,searchAct::class.java)
+            else->intent=Intent(applicationContext,settingsAct::class.java)
         }
         startActivity(intent)
     }

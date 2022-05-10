@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(applicationContext, "Login successful!", Toast.LENGTH_LONG)
                         .show()
-                    startActivity(Intent(this@LoginActivity, MapsActivity::class.java))
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 } else {
                     Toast.makeText(
                         applicationContext,

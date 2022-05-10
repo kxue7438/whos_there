@@ -39,7 +39,7 @@ class recyclerAdapter: RecyclerView.Adapter<recyclerAdapter.viewHolder> {
             if(pos!=-1) {
                 intent.putExtra("contact_info", contactsList.get(pos).name_get())
             }
-        
+
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }

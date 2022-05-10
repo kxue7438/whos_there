@@ -158,7 +158,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val curr = LatLng(location.latitude, location.longitude)
         mMap.clear()
         mMap.addMarker(MarkerOptions().position(curr).title("Current Location"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(curr))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(curr, 10F))
     }
 
     private fun installLocationListeners() {

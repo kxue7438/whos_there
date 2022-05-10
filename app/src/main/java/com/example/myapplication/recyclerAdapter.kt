@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.whosthere
 
 import android.content.Context
 import android.content.Intent
@@ -9,35 +9,33 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
-public class recyclerAdapter: RecyclerView.Adapter<recyclerAdapter.viewHolder> {
-    lateinit var contactsList:ArrayList<contacts>
-    var listener:RecyclerViewClickListener
-
-    constructor(contacts:ArrayList<contacts>,listener: RecyclerViewClickListener){
+class recyclerAdapter: RecyclerView.Adapter<recyclerAdapter.viewHolder> {
+    lateinit var contactsList:ArrayList<contactsObject>
+    lateinit var context:Context
+    constructor(contacts:ArrayList<contactsObject>,context:Context){
         this.contactsList=contacts
-        this.listener=listener
-    }
-    public inner class viewHolder: RecyclerView.ViewHolder,View.OnClickListener{
-        lateinit var nameBox:TextView
-        lateinit var distBox:TextView
+        this.context=context
 
-        constructor(view:View):super(view){
+    }
+
+    public inner class viewHolder: RecyclerView.ViewHolder{
+        lateinit var nameBox: TextView
+        lateinit var distBox: TextView
+
+        constructor(view: View):super(view){
             nameBox=view.findViewById(R.id.nametext)
             distBox=view.findViewById(R.id.distBox)
-            view.setOnClickListener(this)
+
         }
-
-        public override fun onClick(p0: View?) {
-            if (p0 != null) {
-                listener.onClick(p0,adapterPosition)
-            }
-        }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): recyclerAdapter.viewHolder {
-        var itemView:View=LayoutInflater.from(parent.context).inflate(R.layout.listcontact,parent,false)
+        var itemView: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.listcontact,parent,false)
+        itemView.setOnClickListener{
+            val intent:Intent=Intent(context,profileAct::class.java)
+            context.startActivity(intent)
+        }
         return viewHolder(itemView)
     }
 
@@ -49,11 +47,6 @@ public class recyclerAdapter: RecyclerView.Adapter<recyclerAdapter.viewHolder> {
     }
 
     override fun getItemCount(): Int {
-       return contactsList.size
-    }
-
-    public interface RecyclerViewClickListener{
-
-        fun onClick(view:View,pos:Int)
+        return contactsList.size
     }
 }

@@ -15,8 +15,11 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 
 
 class MyService : Service() {
@@ -144,10 +147,36 @@ class MyService : Service() {
                         .update("coords", coord)
                         .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
                         .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+                    //start retrieving the other people's locations
+                    val localDB=getSharedPreferences("myPref", Context.MODE_PRIVATE)
+                    var contactSet = localDB.getStringSet("contactsKey",HashSet<String>()) as HashSet<String>
+                    var taskSet:ArrayList<Task<DocumentSnapshot>>
+                    taskSet=ArrayList<Task<DocumentSnapshot>>()
+                    for(contact in contactSet){
+                        taskSet.add(db.collection("Users").document(contact.toString()).get())
+                    }
+                    var combinedTask= Tasks.whenAllSuccess<DocumentSnapshot>(taskSet)
+                        .addOnSuccessListener { documentList ->
+                            for (doc in documentList) {
+                                val coords=doc.data!!.get("coords") as HashMap<String,Double>
+                                val lat:Double = coords.get("lat") as Double
+                                val long:Double = coords.get("long") as Double
+                                val name = doc.data!!.get("name") as String
+                                val matrix: FloatArray = emptyArray<Float>().toFloatArray()
+                                Location.distanceBetween(currentLocation!!.latitude,currentLocation!!.longitude,
+                                lat,long,matrix)
+                                //dist is in meters
+                                if(matrix[0]<100){
+
+                                }
+                            }
+
+                        }
                 }
             }
         }
     }
+
     companion object{
         private const val ONE_MIN = 1000 * 60.toLong()
         private const val TWO_MIN = ONE_MIN * 2

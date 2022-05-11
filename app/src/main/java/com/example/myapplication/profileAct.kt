@@ -33,6 +33,7 @@ class profileAct: AppCompatActivity() {
             }
             true
         }
+        contactTest.selectedItemId=R.id.profileB
     }
     fun navBarButton(int:Int){
         //0->contacts

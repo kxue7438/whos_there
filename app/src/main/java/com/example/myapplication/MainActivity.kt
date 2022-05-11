@@ -87,7 +87,11 @@ class MainActivity : AppCompatActivity() {
             .addOnSuccessListener { documentList ->
                 for (doc in documentList) {
                     val firestoreUser = doc.data!!.get("name") as String
+                    val coords=doc.data!!.get("coords") as HashMap<String,Double>
+                    val lat:Double = coords.get("lat") as Double
+                    val long:Double = coords.get("long") as Double
                     names.add(contactsObject("$firestoreUser", 5))
+                    
                 }
                 setContactsStage2()
             }

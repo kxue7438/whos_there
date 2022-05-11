@@ -159,8 +159,8 @@ class MyService : Service() {
                         .addOnSuccessListener { documentList ->
                             for (doc in documentList) {
                                 val coords=doc.data!!.get("coords") as HashMap<String,Double>
-                                val lat:Double = coords.get("lat") as Double
-                                val long:Double = coords.get("long") as Double
+                                val lat:Double = coords.get("lat")!!.toDouble()
+                                val long:Double = coords.get("long")!!.toDouble()
                                 val name = doc.data!!.get("name") as String
                                 val matrix = floatArrayOf(3F)
                                 Location.distanceBetween(currentLocation!!.latitude,currentLocation!!.longitude,

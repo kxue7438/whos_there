@@ -21,4 +21,10 @@
     <string name="profile">profile</string>
     <string name="search">search</string>
     <string name="add_contacts">Add Contacts</string>
+    <string name="exclusion_zone_label">Add New Exclusion Zone:</string>
+    <string name="exclusion_lat">Origin Latitude</string>
+    <string name="exclusion_lng">Origin Longitude</string>
+    <string name="exclusion_here">Use Current Location</string>
+    <string name="exclusion_radius">Exclusion Zone Radius (meters)</string>
+    <string name="add_exclusion">Add Exclusion Zone</string>
 </resources>

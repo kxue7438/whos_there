@@ -8,9 +8,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
-        ...
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/exclusion_zone_label"
+            android:textSize="20sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/excl_lat"
+                android:layout_weight="@integer/material_motion_duration_long_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/exclusion_lat"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal|numberSigned"
+                android:minHeight="48dp" />
+            <EditText
+                android:id="@+id/excl_lng"
+                android:layout_weight="@integer/material_motion_duration_long_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/exclusion_lng"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal|numberSigned"
+                android:minHeight="48dp" />
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/use_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/exclusion_here" />
+        <EditText
+            android:id="@+id/excl_radius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/exclusion_radius"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+        <Button
+            android:id="@+id/add_exclusion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_exclusion" />
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

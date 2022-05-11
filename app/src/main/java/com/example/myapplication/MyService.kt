@@ -159,14 +159,27 @@ class MyService : Service() {
                         .addOnSuccessListener { documentList ->
                             for (doc in documentList) {
                                 val coords=doc.data!!.get("coords") as HashMap<String,Double>
-                                val lat:Double = coords.get("lat") as Double
-                                val long:Double = coords.get("long") as Double
+                                val lat:Double = coords.get("lat")!!.toDouble()
+                                val long:Double = coords.get("long")!!.toDouble()
                                 val name = doc.data!!.get("name") as String
                                 val matrix = floatArrayOf(3F)
+                                var str=""
+                                var splitList=str.split(",")
+                                var bool = true
+                                val submatrix = floatArrayOf(3F)
+                                for(coordinate_set in splitList){
+                                    val exclusion_coord:List<String>
+                                    exclusion_coord=coordinate_set.split(" ")
+                                    val currDist =Location.distanceBetween(currentLocation!!.latitude,currentLocation!!.longitude,
+                                        exclusion_coord[0].toDouble(),exclusion_coord[1].toDouble(),submatrix)
+                                    if(submatrix[0]<=exclusion_coord[2].toDouble()){
+                                        bool=false
+                                    }
+                                }
                                 Location.distanceBetween(currentLocation!!.latitude,currentLocation!!.longitude,
                                 lat,long,matrix)
                                 //dist is in meters
-                                if(matrix[0]<100){
+                                if(matrix[0]<100&&bool){
 
                                 }
                             }

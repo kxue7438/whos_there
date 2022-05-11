@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -22,12 +23,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var names: ArrayList<contactsObject>
     lateinit var recyclerView: RecyclerView
     private var db = FirebaseFirestore.getInstance()
-
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setContacts()
+        mAuth = FirebaseAuth.getInstance()
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
             checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -91,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                     val lat:Double = coords.get("lat") as Double
                     val long:Double = coords.get("long") as Double
                     names.add(contactsObject("$firestoreUser", 5))
-                    
+
                 }
                 setContactsStage2()
             }

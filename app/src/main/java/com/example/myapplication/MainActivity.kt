@@ -30,10 +30,12 @@ class MainActivity : AppCompatActivity() {
         setContacts()
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-            checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), REQ)
-        } else {
+            checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), REQ)
+        }
+        if(checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), BACK)
+        }else{
             startForegroundService(Intent(applicationContext, MyService::class.java))
         }
 
@@ -110,19 +112,28 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQ) {
-
-            // Checking whether user granted the permission or not.
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Showing the toast message
-                startForegroundService(Intent(applicationContext, MyService::class.java))
-                Toast.makeText(this, "Location Service Permission Granted", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(this, "Location Service Permission Denied", Toast.LENGTH_SHORT).show();
-            }
+        when (requestCode) {
+            REQ ->
+                // Checking whether user granted the permission or not.
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Showing the toast message
+                    Toast.makeText(this, "Location Service Permission Granted", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this, "Location Service Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+            BACK ->
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Showing the toast message
+                    startForegroundService(Intent(applicationContext, MyService::class.java))
+                    Toast.makeText(this, "Background Location Service Permission Granted", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this, "Background Location Service Permission Denied", Toast.LENGTH_SHORT).show();
+                }
         }
+
     }
     companion object{
         private val REQ = 1
+        private val BACK = 2
     }
 }

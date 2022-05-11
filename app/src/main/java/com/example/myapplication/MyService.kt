@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 class MyService : Service() {
     private lateinit var mLocationManager: LocationManager
     private lateinit var mLocationListener: LocationListener
+    lateinit var manager: NotificationManager
     private var db = FirebaseFirestore.getInstance()
     var currentLocation: Location? = null
     private var counter = 0
@@ -71,7 +72,7 @@ class MyService : Service() {
         )
         chan.lightColor = Color.BLUE
         chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
-        val manager =
+        manager =
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
         manager.createNotificationChannel(chan)
         val notificationBuilder =
@@ -187,8 +188,30 @@ class MyService : Service() {
                                 Location.distanceBetween(currentLocation!!.latitude,currentLocation!!.longitude,
                                 lat,long,matrix)
                                 //dist is in meters
-                                if(matrix[0]<100&&bool){
+                                if(matrix[0]<1000&&bool){
+                                Log.i("test","if it did")
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        val notificationChannel = NotificationChannel(
+                                            CHANNEL_ID,
+                                            CHANNEL_NAME,
+                                            // Change importance
+                                            NotificationManager.IMPORTANCE_LOW
+                                        )
 
+                                        notificationChannel.enableLights(true)
+                                        notificationChannel.lightColor = Color.RED
+                                        notificationChannel.enableVibration(true)
+                                        notificationChannel.description = "friend near"
+
+                                        manager.createNotificationChannel(notificationChannel)
+                                        val builder = NotificationCompat.Builder(
+                                            applicationContext,CHANNEL_ID
+                                        )
+                                            .setSmallIcon(R.drawable.sym_def_app_icon)
+                                            .setContentTitle("Who is There")
+                                            .setContentText("$name is less than 1000 meters away")
+                                        manager.notify(1234, builder.build())
+                                    }
                                 }
                             }
 
@@ -208,5 +231,7 @@ class MyService : Service() {
         private const val REQUEST_FINE_LOC_PERM_ONCREATE = 200
         private const val REQUEST_FINE_LOC_PERM_ONRESUME = 201
         private const val TAG = "LocationService"
+        private val CHANNEL_ID = "com.example.myapplication"
+        private val CHANNEL_NAME = "NOTI"
     }
 }

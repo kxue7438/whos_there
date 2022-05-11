@@ -163,7 +163,8 @@ class MyService : Service() {
                                 val long:Double = coords.get("long")!!.toDouble()
                                 val name = doc.data!!.get("name") as String
                                 val matrix = floatArrayOf(3F)
-                                var str=""
+                                val localDB=getSharedPreferences("myPref", Context.MODE_PRIVATE)
+                                var str=localDB.getString("exclusionKey","") as String
                                 var splitList=str.split(",")
                                 var bool = true
                                 val submatrix = floatArrayOf(3F)

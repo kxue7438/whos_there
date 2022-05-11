@@ -13,20 +13,20 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
-import java.util.ArrayList
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var names: ArrayList<contactsObject>
     lateinit var recyclerView: RecyclerView
+    private var db = FirebaseFirestore.getInstance()
+    private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        mAuth = FirebaseAuth.getInstance()
         setContacts()
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -65,9 +65,10 @@ class MainActivity : AppCompatActivity() {
     }
     fun setContacts(){
         names= ArrayList<contactsObject>()
-
         recyclerView=findViewById(R.id.recyclerView)
         exampleInput()
+    }
+    fun setContactsStage2(){
         var adapter:recyclerAdapter = recyclerAdapter(names,applicationContext)
         var layoutMgr:RecyclerView.LayoutManager= LinearLayoutManager(applicationContext)
         recyclerView.layoutManager=layoutMgr
@@ -75,9 +76,29 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter=adapter
     }
     fun exampleInput(){
-        names.add(contactsObject("Yuh",5))
-        names.add(contactsObject("Yessir",6))
+        val user = mAuth!!.currentUser
+        val users = db.collection("Users").document("jkl@gmail.com")
+        val TAG: String = MainActivity::class.java.getName()
+        lateinit var firestoreUser:String
+        //the task is run asynchronously, u must make it so that nothing goes on before
+        //the task is complete if ur depending on the info from the task below
+        var userMap=users.get().addOnSuccessListener { document ->
+            if (document != null) {
+                firestoreUser=document.data!!.get("name") as String
+                names.add(contactsObject("$firestoreUser",5))
+                names.add(contactsObject("Yessir",6))
+                setContactsStage2()
+                Log.d(TAG, "DocumentSnapshot data: ${document.data} \n" +
+                        "firestoreuser: ${firestoreUser}")
+            } else {
+                Log.d(TAG, "No such document")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
     }
+
     fun test(int:Int):Boolean{
         Log.i("test$int", "test$int")
 

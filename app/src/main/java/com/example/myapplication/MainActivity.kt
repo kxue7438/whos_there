@@ -1,19 +1,20 @@
 package com.example.myapplication
 
 import android.Manifest
-import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -21,12 +22,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var names: ArrayList<contactsObject>
     lateinit var recyclerView: RecyclerView
     private var db = FirebaseFirestore.getInstance()
-    private var mAuth: FirebaseAuth? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mAuth = FirebaseAuth.getInstance()
         setContacts()
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     fun setContacts(){
         names= ArrayList<contactsObject>()
         recyclerView=findViewById(R.id.recyclerView)
-        exampleInput()
+        dataInput()
     }
     fun setContactsStage2(){
         var adapter:recyclerAdapter = recyclerAdapter(names,applicationContext)
@@ -75,27 +75,21 @@ class MainActivity : AppCompatActivity() {
         recyclerView.itemAnimator= DefaultItemAnimator()
         recyclerView.adapter=adapter
     }
-    fun exampleInput(){
-        val user = mAuth!!.currentUser
-        val users = db.collection("Users").document("jkl@gmail.com")
-        val TAG: String = MainActivity::class.java.getName()
-        lateinit var firestoreUser:String
-        //the task is run asynchronously, u must make it so that nothing goes on before
-        //the task is complete if ur depending on the info from the task below
-        var userMap=users.get().addOnSuccessListener { document ->
-            if (document != null) {
-                firestoreUser=document.data!!.get("name") as String
-                names.add(contactsObject("$firestoreUser",5))
-                names.add(contactsObject("Yessir",6))
-                setContactsStage2()
-                Log.d(TAG, "DocumentSnapshot data: ${document.data} \n" +
-                        "firestoreuser: ${firestoreUser}")
-            } else {
-                Log.d(TAG, "No such document")
-            }
+    fun dataInput(){
+        val localDB=getSharedPreferences("myPref", Context.MODE_PRIVATE)
+        var contactSet = localDB.getStringSet("contactsKey",HashSet<String>()) as HashSet<String>
+        var taskSet:ArrayList<Task<DocumentSnapshot>>
+        taskSet=ArrayList<Task<DocumentSnapshot>>()
+        for(contact in contactSet){
+            taskSet.add(db.collection("Users").document(contact.toString()).get())
         }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
+        var combinedTask= Tasks.whenAllSuccess<DocumentSnapshot>(taskSet)
+            .addOnSuccessListener { documentList ->
+                for (doc in documentList) {
+                    val firestoreUser = doc.data!!.get("name") as String
+                    names.add(contactsObject("$firestoreUser", 5))
+                }
+                setContactsStage2()
             }
     }
 

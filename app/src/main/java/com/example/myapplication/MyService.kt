@@ -14,16 +14,18 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import com.google.android.gms.location.LocationRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MyService : Service() {
-    lateinit var mLocationManager: LocationManager
-    lateinit var mLocationListener: LocationListener
+    private lateinit var mLocationManager: LocationManager
+    private lateinit var mLocationListener: LocationListener
+    private var db = FirebaseFirestore.getInstance()
     var currentLocation: Location? = null
-    var counter = 0
+    private var counter = 0
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate() {
         super.onCreate()
@@ -33,6 +35,7 @@ class MyService : Service() {
         )
         mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         mLocationListener = createLocationListener()
+        mAuth = FirebaseAuth.getInstance()
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
@@ -129,7 +132,18 @@ class MyService : Service() {
                     // Update best estimate
                     currentLocation = location
                     MapsActivity.currLocation = currentLocation
-                    // Update display
+
+                    //update database
+                    val coord = hashMapOf(
+                        "lat" to currentLocation!!.latitude,
+                        "long" to currentLocation!!.longitude
+                    )
+                    val currentUser = mAuth.currentUser
+                    val userDoc = db.collection("Users").document(currentUser!!.email!!)
+                    userDoc
+                        .update("coords", coord)
+                        .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+                        .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
                 }
             }
         }

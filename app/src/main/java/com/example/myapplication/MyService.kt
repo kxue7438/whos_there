@@ -148,6 +148,7 @@ class MyService : Service() {
             }
         }
     }
+
     companion object{
         private const val ONE_MIN = 1000 * 60.toLong()
         private const val TWO_MIN = ONE_MIN * 2

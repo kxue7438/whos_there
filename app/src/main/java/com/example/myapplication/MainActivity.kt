@@ -8,6 +8,7 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,11 +38,6 @@ class MainActivity : AppCompatActivity() {
             checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), REQ)
         }
-        if(checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), BACK)
-        }else{
-            startForegroundService(Intent(applicationContext, MyService::class.java))
-        }
 
         var contactTest=findViewById<BottomNavigationView>(R.id.bottom_navigation)
         contactTest.setOnItemSelectedListener{ bottom_navigation ->
@@ -52,6 +48,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.settingsB ->navBarButton(3)
             }
             true
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), BACK)
+        }else{
+            startForegroundService(Intent(applicationContext, MyService::class.java))
         }
     }
 

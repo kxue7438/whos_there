@@ -165,16 +165,23 @@ class MyService : Service() {
                                 val matrix = floatArrayOf(3F)
                                 val localDB=getSharedPreferences("myPref", Context.MODE_PRIVATE)
                                 var str=localDB.getString("exclusionKey","") as String
-                                var splitList=str.split(",")
                                 var bool = true
-                                val submatrix = floatArrayOf(3F)
-                                for(coordinate_set in splitList){
-                                    val exclusion_coord:List<String>
-                                    exclusion_coord=coordinate_set.split(" ")
-                                    val currDist =Location.distanceBetween(currentLocation!!.latitude,currentLocation!!.longitude,
-                                        exclusion_coord[0].toDouble(),exclusion_coord[1].toDouble(),submatrix)
-                                    if(submatrix[0]<=exclusion_coord[2].toDouble()){
-                                        bool=false
+                                if(str.length>0) {
+                                    var splitList = str.split(",")
+                                    val submatrix = floatArrayOf(3F)
+                                    for (coordinate_set in splitList) {
+                                        val exclusion_coord: List<String>
+                                        exclusion_coord = coordinate_set.split(" ")
+                                        val currDist = Location.distanceBetween(
+                                            currentLocation!!.latitude,
+                                            currentLocation!!.longitude,
+                                            exclusion_coord[0].toDouble(),
+                                            exclusion_coord[1].toDouble(),
+                                            submatrix
+                                        )
+                                        if (submatrix[0] <= exclusion_coord[2].toDouble()) {
+                                            bool = false
+                                        }
                                     }
                                 }
                                 Location.distanceBetween(currentLocation!!.latitude,currentLocation!!.longitude,

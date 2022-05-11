@@ -166,7 +166,7 @@ class MyService : Service() {
                                 val matrix = floatArrayOf(3F)
                                 val localDB=getSharedPreferences("myPref", Context.MODE_PRIVATE)
                                 var str=localDB.getString("exclusionKey","") as String
-                                Log.i("tester","$str")
+                                //Log.i("tester","$str")
                                 var bool = true
                                 if(str.length>0) {
                                     var splitList = str.split(",")

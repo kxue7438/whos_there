@@ -91,9 +91,9 @@ class settingsAct: AppCompatActivity() {
 
         var exclusionString = sharedPreferences.getString(exclusions, "") as String
         val editor = sharedPreferences.edit()
-        Log.i("test str","$exclusionString")
+        //Log.i("test str","$exclusionString")
         if(exclusionString.length==0){
-            Log.i("nogo","nogo")
+            //Log.i("nogo","nogo")
             exclusionString = "$lat $lng $radius"
         }else{
             exclusionString +=",$lat $lng $radius"

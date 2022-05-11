@@ -162,7 +162,7 @@ class MyService : Service() {
                                 val lat:Double = coords.get("lat") as Double
                                 val long:Double = coords.get("long") as Double
                                 val name = doc.data!!.get("name") as String
-                                val matrix: FloatArray = emptyArray<Float>().toFloatArray()
+                                val matrix = floatArrayOf(3F)
                                 Location.distanceBetween(currentLocation!!.latitude,currentLocation!!.longitude,
                                 lat,long,matrix)
                                 //dist is in meters

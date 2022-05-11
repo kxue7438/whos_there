@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -90,7 +91,13 @@ class settingsAct: AppCompatActivity() {
 
         var exclusionString = sharedPreferences.getString(exclusions, "") as String
         val editor = sharedPreferences.edit()
-        exclusionString = "$exclusionString,$lat $lng $radius"
+        Log.i("test str","$exclusionString")
+        if(exclusionString.length==0){
+            Log.i("nogo","nogo")
+            exclusionString = "$lat $lng $radius"
+        }else{
+            exclusionString +=",$lat $lng $radius"
+        }
         editor.putString(exclusions, exclusionString)
         editor.apply()
 

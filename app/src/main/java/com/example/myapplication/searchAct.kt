@@ -39,6 +39,7 @@ class searchAct: AppCompatActivity() {
             }
             true
         }
+        contactTest.selectedItemId = R.id.searchB
     }
     fun navBarButton(int:Int){
         //0->contacts
@@ -60,6 +61,7 @@ class searchAct: AppCompatActivity() {
         val userRef = db.collection("Users").document(email)
         val user = FirebaseAuth.getInstance().currentUser
         if (user!!.email.equals(email)) {
+            emailTV.text.clear()
             Toast.makeText(applicationContext, "Cannot add self as contact", Toast.LENGTH_SHORT).show()
             return
         }

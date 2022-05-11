@@ -169,6 +169,7 @@ class MyService : Service() {
                                 //Log.i("tester","$str")
                                 var bool = true
                                 if(str.length>0) {
+                                    Log.i("applied","asdfdsf")
                                     var splitList = str.split(",")
                                     val submatrix = floatArrayOf(3F)
                                     for (coordinate_set in splitList) {
@@ -182,7 +183,9 @@ class MyService : Service() {
                                             exclusion_coord[1]!!.toDouble(),
                                             submatrix
                                         )
+                                        Log.i("applied","as ${exclusion_coord[2]} and ${submatrix[0]}")
                                         if (submatrix[0] <= exclusion_coord[2]!!.toDouble()) {
+                                            Log.i("applied","asdhwerjhwekrhkwqejhr")
                                             bool = false
                                         }
                                     }

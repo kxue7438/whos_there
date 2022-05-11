@@ -100,7 +100,7 @@ class settingsAct: AppCompatActivity() {
         }
         editor.putString(exclusions, exclusionString)
         editor.apply()
-
+        Log.i("applied","asd")
         latTV.text.clear()
         lngTV.text.clear()
         radiusTV.text.clear()

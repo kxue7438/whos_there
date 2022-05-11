@@ -21,6 +21,7 @@ class settingsAct: AppCompatActivity() {
             }
             true
         }
+        contactTest.selectedItemId = R.id.settingsB
     }
 
     fun navBarButton(int:Int){

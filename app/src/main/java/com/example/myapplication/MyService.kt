@@ -195,7 +195,7 @@ class MyService : Service() {
                                             CHANNEL_ID,
                                             CHANNEL_NAME,
                                             // Change importance
-                                            NotificationManager.IMPORTANCE_LOW
+                                            NotificationManager.IMPORTANCE_HIGH
                                         )
 
                                         notificationChannel.enableLights(true)
@@ -210,6 +210,7 @@ class MyService : Service() {
                                             .setSmallIcon(R.drawable.sym_def_app_icon)
                                             .setContentTitle("Who is There")
                                             .setContentText("$name is less than 1000 meters away")
+                                            .setPriority(NotificationCompat.PRIORITY_MAX)
                                         manager.notify(1234, builder.build())
                                     }
                                 }

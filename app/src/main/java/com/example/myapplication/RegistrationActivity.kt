@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class RegistrationActivity : AppCompatActivity() {
@@ -21,6 +22,7 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var goLogin: Button
     private lateinit var progressBar: ProgressBar
     private var validator = Validators()
+    private var db = FirebaseFirestore.getInstance()
 
     private var mAuth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +65,10 @@ class RegistrationActivity : AppCompatActivity() {
                     .setDisplayName(name).build()
 
                 user!!.updateProfile(profileUpdates)
+
+                val userinfo = mapOf("email" to email, "name" to name)
+
+                db.collection("Users").document(email).set(userinfo)
 
                 Toast.makeText(applicationContext, getString(R.string.register_success_string), Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))

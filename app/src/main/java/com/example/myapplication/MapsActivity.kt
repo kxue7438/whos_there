@@ -1,7 +1,15 @@
 package com.example.myapplication
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,7 +30,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.i(TAG, "Network location updates requested")
         mAuth = FirebaseAuth.getInstance()
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
@@ -32,6 +40,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
     }
 
     override fun onStart() {
@@ -44,7 +53,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(applicationContext, currentUser.displayName, Toast.LENGTH_LONG).show()
         }
     }
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -61,5 +69,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),REQUEST_FINE_LOC_PERM_ONCREATE)
+        } else {
+            updateDisplay(currLocation!!)
+        }
+    }
+
+    // Update display
+    private fun updateDisplay(location: Location) {
+        val curr = LatLng(location.latitude, location.longitude)
+        mMap.clear()
+
+        mMap.addMarker(MarkerOptions().position(curr).title("Current Location"))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(curr, 10F))
+    }
+
+
+
+    companion object{
+        private const val ONE_MIN = 1000 * 60.toLong()
+        private const val TWO_MIN = ONE_MIN * 2
+        private const val MEASURE_TIME = TWO_MIN
+        private const val POLLING_FREQ = 1000 * 10.toLong()
+        private const val MIN_ACCURACY = 5.0f
+        private const val MIN_DISTANCE = 5.0f
+        private const val REQUEST_FINE_LOC_PERM_ONCREATE = 200
+        private const val REQUEST_FINE_LOC_PERM_ONRESUME = 201
+        private const val TAG = "LocationGetLocation"
+        var currLocation: Location? = null
     }
 }

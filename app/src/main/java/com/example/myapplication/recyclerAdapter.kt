@@ -34,15 +34,15 @@ class recyclerAdapter: RecyclerView.Adapter<recyclerAdapter.viewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): recyclerAdapter.viewHolder {
         var itemView: View =
             LayoutInflater.from(parent.context).inflate(R.layout.listcontact,parent,false)
+        /*
         itemView.setOnClickListener{
             val intent:Intent=Intent(context,otherProfileAct::class.java)
             if(pos!=-1) {
                 intent.putExtra("contact_info", contactsList.get(pos).name_get())
             }
-
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
-        }
+        }*/
         return viewHolder(itemView)
     }
 

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,8 +29,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setContacts()
         mAuth = FirebaseAuth.getInstance()
+        setContacts()
+
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
             checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -85,6 +87,8 @@ class MainActivity : AppCompatActivity() {
         for(contact in contactSet){
             taskSet.add(db.collection("Users").document(contact.toString()).get())
         }
+        val currentUser = mAuth.currentUser
+        db.collection("Users").document(currentUser!!.email!!).get()
         var combinedTask= Tasks.whenAllSuccess<DocumentSnapshot>(taskSet)
             .addOnSuccessListener { documentList ->
                 for (doc in documentList) {
@@ -92,10 +96,19 @@ class MainActivity : AppCompatActivity() {
                     val coords=doc.data!!.get("coords") as HashMap<String,Double>
                     val lat:Double = coords.get("lat") as Double
                     val long:Double = coords.get("long") as Double
-                    names.add(contactsObject("$firestoreUser", 5))
-
+                    db.collection("Users").document(currentUser!!.email!!).get()
+                        .addOnSuccessListener { document->
+                            val coords=document.data!!.get("coords") as HashMap<String,Double>
+                            val latitude:Double = coords.get("lat")!!.toDouble()
+                            val longitude:Double = coords.get("long")!!.toDouble()
+                            val matrix = floatArrayOf(3F)
+                            Location.distanceBetween(latitude,longitude,
+                                lat,long,matrix)
+                            names.add(contactsObject("$firestoreUser", matrix[0].toInt()))
+                            setContactsStage2()
+                    }
                 }
-                setContactsStage2()
+
             }
     }
 

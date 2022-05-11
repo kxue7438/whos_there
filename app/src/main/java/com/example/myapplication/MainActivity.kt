@@ -1,9 +1,14 @@
 package com.example.myapplication
 
+import android.Manifest
+import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +29,13 @@ class MainActivity : AppCompatActivity() {
 
         setContacts()
 
-
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+            checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), REQ)
+        } else {
+            startForegroundService(Intent(applicationContext, MyService::class.java))
+        }
 
         var contactTest=findViewById<BottomNavigationView>(R.id.bottom_navigation)
         contactTest.setOnItemSelectedListener{ bottom_navigation ->
@@ -72,5 +83,27 @@ class MainActivity : AppCompatActivity() {
 
         overridePendingTransition(0,0)
         return true
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQ) {
+
+            // Checking whether user granted the permission or not.
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Showing the toast message
+                startForegroundService(Intent(applicationContext, MyService::class.java))
+                Toast.makeText(this, "Location Service Permission Granted", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "Location Service Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    companion object{
+        private val REQ = 1
     }
 }

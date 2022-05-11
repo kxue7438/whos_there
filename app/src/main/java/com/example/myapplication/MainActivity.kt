@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             taskSet.add(db.collection("Users").document(contact.toString()).get())
         }
         val currentUser = mAuth.currentUser
-        db.collection("Users").document(currentUser!!.email!!).get()
+
         var combinedTask= Tasks.whenAllSuccess<DocumentSnapshot>(taskSet)
             .addOnSuccessListener { documentList ->
                 for (doc in documentList) {
